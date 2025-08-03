@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { 
   TrendingUp, TrendingDown, DollarSign, BarChart3, PieChart,
   Calendar, ArrowUp, ArrowDown, Eye, Filter, Download,
@@ -66,11 +66,7 @@ export default function RevenueAnalysis({ setActiveTab }: RevenueAnalysisProps) 
   const [showTransactions, setShowTransactions] = useState(false);
   const [transactionFilter, setTransactionFilter] = useState<'all' | 'gelir' | 'gider' | 'satis'>('all');
 
-  useEffect(() => {
-    fetchRevenueData();
-  }, [selectedPeriod, selectedCategory]);
-
-  const fetchRevenueData = async () => {
+  const fetchRevenueData = useCallback(async () => {
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -87,7 +83,11 @@ export default function RevenueAnalysis({ setActiveTab }: RevenueAnalysisProps) 
     } finally {
       setLoading(false);
     }
-  };
+  }, [selectedPeriod, selectedCategory]);
+
+  useEffect(() => {
+    fetchRevenueData();
+  }, [fetchRevenueData]);
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('tr-TR', {
@@ -465,7 +465,7 @@ export default function RevenueAnalysis({ setActiveTab }: RevenueAnalysisProps) 
           onClick={() => setActiveTab?.('dashboard')}
           className="btn btn-secondary"
         >
-          🏠 Dashboard'a Dön
+          🏠 Dashboard&apos;a Dön
         </button>
       </div>
     </div>

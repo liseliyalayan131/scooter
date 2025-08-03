@@ -172,32 +172,32 @@ export async function GET(request: NextRequest) {
       ]).toArray()
     ]);
     
-    const totalRevenue = transactions
-      .filter(t => t.type === 'gelir' || t.type === 'satis')
-      .reduce((sum, t) => sum + t.amount, 0);
+    const totalRevenue = (transactions as any[])
+      .filter((t: any) => t.type === 'gelir' || t.type === 'satis')
+      .reduce((sum: number, t: any) => sum + t.amount, 0);
     
-    const salesRevenue = transactions
-      .filter(t => t.type === 'satis')
-      .reduce((sum, t) => sum + t.amount, 0);
+    const salesRevenue = (transactions as any[])
+      .filter((t: any) => t.type === 'satis')
+      .reduce((sum: number, t: any) => sum + t.amount, 0);
     
-    const otherRevenue = transactions
-      .filter(t => t.type === 'gelir')
-      .reduce((sum, t) => sum + t.amount, 0);
+    const otherRevenue = (transactions as any[])
+      .filter((t: any) => t.type === 'gelir')
+      .reduce((sum: number, t: any) => sum + t.amount, 0);
     
-    const totalExpenses = transactions
-      .filter(t => t.type === 'gider')
-      .reduce((sum, t) => sum + t.amount, 0);
+    const totalExpenses = (transactions as any[])
+      .filter((t: any) => t.type === 'gider')
+      .reduce((sum: number, t: any) => sum + t.amount, 0);
     
     const netProfit = totalRevenue - totalExpenses;
     const profitMargin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
     
-    const salesCount = transactions.filter(t => t.type === 'satis').length;
+    const salesCount = (transactions as any[]).filter((t: any) => t.type === 'satis').length;
     const averageTransaction = salesCount > 0 ? salesRevenue / salesCount : 0;
     
     const days = Math.ceil((endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)) + 1;
     
     const response = {
-      transactions: transactions.map(t => ({
+      transactions: (transactions as any[]).map((t: any) => ({
         _id: t._id,
         type: t.type,
         amount: t.amount,
@@ -221,14 +221,14 @@ export async function GET(request: NextRequest) {
         operatingExpenses: totalExpenses,
         salesCount,
         averageTransaction,
-        topCategories: categoryStats.map(cat => ({
+        topCategories: (categoryStats as any[]).map((cat: any) => ({
           category: cat._id || 'Belirtilmemiş',
           revenue: cat.revenue,
           expense: cat.expense,
           profit: cat.profit,
           count: cat.count
         })),
-        dailyBreakdown: dailyBreakdown.map(day => ({
+        dailyBreakdown: (dailyBreakdown as any[]).map((day: any) => ({
           date: day._id,
           revenue: day.revenue,
           expenses: day.expenses,
