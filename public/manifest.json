@@ -1,0 +1,17 @@
+{
+  "name": "Scooter İşletme Yönetimi",
+  "short_name": "Scooter App",
+  "description": "Elektrikli scooter dükkanı için gelir-gider takip uygulaması",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0F172A",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
